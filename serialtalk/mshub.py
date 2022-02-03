@@ -1,7 +1,7 @@
 from utime import sleep_ms
 from hub import port
 
-###################### Uart ############################
+# Implement UART any(), read() and write() methods with universal behavior
 
 class MSHubSerial():
     READS_PER_MS = 10
@@ -40,26 +40,4 @@ class MSHubSerial():
             sleep_ms(5)
             data = data[window:]
         self.uart.write(data)
-
-###################### BLE ############################
-
-class BLECentralSerial():
-    # Micropython style uart device with read(), write() and any() methods.
-    # Add flush and readall methods too?
-    def __init__(self):
-        self.buff = bytearray()
-        self.central = ""
-        pass
-
-    def any(self):
-        return len(self.buff)
-
-    def write(self,data):
-        self.central.send(data)
-        pass
-
-    def read(self):
-        data = self.buff
-        self.buff = bytearray()
-        return data
         

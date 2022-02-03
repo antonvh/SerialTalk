@@ -1,6 +1,7 @@
 
 # Work in progess!!
 # Test serial talk over socket
+import socket
 
 class TCPHostSocket(socket.socket):
     def __init__(self, host="127.0.0.1", port=65432):
