@@ -249,7 +249,7 @@ class SerialTalk:
         # Sleep for sleep ms after every listen.
         if sleep == -2:
             sleep = 1 # Originally this was 13 on H7 platforms.
-        if self.available():
+        if self.serial.any():
             self.reply_command(*self.receive_command())
         else:
             if self.DEBUG:

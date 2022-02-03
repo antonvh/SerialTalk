@@ -20,7 +20,7 @@ class MSHubSerial():
 
     def any(self):
         while True:
-            r=self.uart.read(32) #TODO test!! Was 1
+            r=self.uart.read(1)
             if r==b'': break
             self.buff += r
         return len(self.buff)
