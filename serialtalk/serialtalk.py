@@ -24,7 +24,7 @@ class SerialTalk:
     def __init__(self, serial_device, timeout=1500, debug=False):
         # Timeout is the time the lib waits in a receive_comand() after placing a call().
         self.timeout = timeout
-        self.DEBUG = debug
+        self.debug = debug
         self.local_repl_enabled = False
         self.serial = serial_device
         try:
@@ -36,13 +36,17 @@ class SerialTalk:
         self.add_command(self.echo, 'repr', name='echo')
         self.add_command(self.raw_echo, name='raw echo')
 
+    def info(self, *args):
+        if self.debug:
+            print(args)
+
     def echo(self, *s):
         # Accepts multiple arguments, hence *s
-        if self.DEBUG: print(s)
+        self.info(s)
         return s
 
     def raw_echo(self, s):
-        if self.DEBUG: print(s)
+        self.info(s)
         return s
 
     def enable_repl_locally(self):
@@ -138,7 +142,7 @@ class SerialTalk:
 
     def flush(self):
         _ = self.read_all()
-        if self.DEBUG: print("Flushed: %r" % _)
+        self.info("Flushed: %r" % _)
 
     def force_read(self, size=1, timeout=50):
         # Keep reading for 'timeout' milliseconds
@@ -155,7 +159,7 @@ class SerialTalk:
                 return data
             else:
                 r=self.serial.read(1)
-            if i > 3 and self.DEBUG:
+            if i > 3 and self.debug:
                 print("Waiting for data in force read...")
         return data
 
@@ -174,7 +178,7 @@ class SerialTalk:
 
         if delim!=b'<':
             err = "< delim not found after timeout of {}".format(timeout)
-            if self.DEBUG: print(err)
+            self.info(err)
             return ("err",err)
 
         payload=self.force_read(1)
@@ -184,7 +188,7 @@ class SerialTalk:
         delim=self.force_read(1)
 
         if delim!=b'>':
-            if self.DEBUG: print("Delim {}".format(delim))
+            self.info("Delim {}".format(delim))
             return ("err","> delim not found")
         else:
             result = self.decode(payload)
@@ -238,7 +242,7 @@ class SerialTalk:
 
     def ack_err(self, command="", value="not ok", fmt="repr"):
         command_err=command+"err"
-        if self.DEBUG: print(value)
+        self.info(value)
         self.send_command(command_err,fmt,value)
 
     def process_uart(self, sleep=-2):
@@ -252,7 +256,7 @@ class SerialTalk:
         if self.serial.any():
             self.reply_command(*self.receive_command())
         else:
-            if self.DEBUG:
+            if self.debug:
                 print("Nothing available. Sleeping 1000ms")
                 sleep_ms(1000)
             else:
@@ -289,7 +293,7 @@ class SerialTalk:
         if raw_paste:
             self.serial.write(b"\x05A\x01") # Try raw paste
             result = self.force_read(2)
-            if self.DEBUG: print(result)
+            self.info(result)
             if result == b'R\x01':
                 raw_paste = True
                 result = self.serial.read(3) # Should be b'x80\x00\x01' where \x80 is the window size
@@ -327,7 +331,7 @@ class SerialTalk:
             except:
                 raise SerialTalkError("Unexpected answer from repl: {}".format(result))
             if error:
-                if self.DEBUG: print(error)
+                self.info(error)
                 return error.strip() # using strip() to remove \r\n at the end.
             elif value:
                 return value.strip()
