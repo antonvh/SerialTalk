@@ -20,20 +20,8 @@ s.listen(MAX_CONNECTIONS)
 while True:
     clientsocket, address = s.accept()
     print("{} connected!", address)
-    st = SerialTalk(SocketSerial(clientsocket))
-    st.loop()
+    
+    st = SerialTalk(SocketSerial(clientsocket), debug=True)
+    st.reply_command(*st.receive_command())
 
 s.close()
-# class TCPHostSocket(socket.socket):
-#     def __init__(self, host="127.0.0.1", port=65432):
-#         self.bind((host,port))
-#         self.listen()
-#         conn,addr = self.accept()
-
-# Create host socket
-
-# While true
-    # Wait for client to connect
-    # With client socket start ur.loop()
-    # When socket closes, stop loop
-    # Start over.
