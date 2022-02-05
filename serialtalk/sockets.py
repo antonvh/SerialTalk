@@ -1,5 +1,4 @@
 
-
 import socket
 
 class SocketSerial():
@@ -13,38 +12,45 @@ class SocketSerial():
             num_written += self.s.send(data[num_written:])
 
     def read(self, n=1):
-        if len(self.buff) > n:
-            return self.buff.pop(n)
+        data=extra=b''
+        if len(self.buff) >= n:
+            data = self.buff[0:n]
+            self.buff = self.buff[n:]
         else:
-            try:
-                extra = self.s.recv(n-len(self.buff))
-            except socket.timeout:
-                extra = b''
-            data = extra + self.buff
-            self.buff = bytearray()
-            return data
+            while data == b'':
+                try:
+                    extra = self.s.recv(n-len(self.buff))
+                except BlockingIOError:
+                    pass
+                data = extra + self.buff
+                self.buff = bytearray()
+        # print(data)
+        return data
 
     def any(self):
         while True:
             try:
                 r=self.s.recv(1)
-            except socket.timeout: #timeout
+            except BlockingIOError: #timeout
                 break
             if r==b'': break
             self.buff += r
+        print(self.buff)
         return len(self.buff)
 
 class ClientSocketSerial(SocketSerial):
     def __init__(self, host, port):
-        super().__init__(socket.socket())
+        super().__init__(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
         
-        # https://docs.micropython.org/en/latest/library/socket.html?highlight=socket#socket.socket.settimeout
-        # socket.settimeout(value)
-        # Guaranteed to return an address which can be connect'ed to for
-        # stream operation.
-        # Does this block??
-        
-        self.s.connect(socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[0][-1])
-        self.s.settimeout(0.01)
+        # self.s.connect(socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[0][-1])
+        # self.s = socket.socket()
+        self.s.connect((host, port))
+        self.s.setblocking(0)
+        self.read_done = False
 
+    def read(self, n=1):
+        data = super().read(n)
+        self.read_done = True
+        # self.s.close()
+        return data
     
