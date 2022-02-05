@@ -24,7 +24,6 @@ class SocketSerial():
                     pass
                 data = extra + self.buff
                 self.buff = bytearray()
-        # print(data)
         return data
 
     def any(self):
@@ -35,22 +34,28 @@ class SocketSerial():
                 break
             if r==b'': break
             self.buff += r
-        print(self.buff)
         return len(self.buff)
 
 class ClientSocketSerial(SocketSerial):
     def __init__(self, host, port):
-        super().__init__(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
-        
-        # self.s.connect(socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[0][-1])
-        # self.s = socket.socket()
-        self.s.connect((host, port))
-        self.s.setblocking(0)
-        self.read_done = False
+        super().__init__(socket.socket())
+        self.addr = (host, port)
+        self.connect()
 
-    def read(self, n=1):
-        data = super().read(n)
-        self.read_done = True
-        # self.s.close()
-        return data
+    def connect(self):
+        self.s.close()
+        # is this necessary for upython?
+        # self.s.connect(socket.getaddrinfo(host, port, 0, socket.SOCK_STREAM)[0][-1])
+        self.s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.connect(self.addr)
+        self.s.setblocking(0)
+        self.write_done = False
     
+    def write(self, data):
+        # Use the socket only once for writing, then discard
+        # Necessary because of blocking behavior in sockets
+        # If you keep it open, it blocks after the first call
+        if self.write_done:
+            self.connect()
+        self.write_done = True
+        return super().write(data)
