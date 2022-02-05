@@ -1,8 +1,5 @@
-
-
+# micropython implementation of sockets
 import socket
-
-
 
 class SocketSerial():
     def __init__(self, sock):
@@ -38,7 +35,6 @@ class SocketSerial():
             if r==None: break
             self.buff += r
         return len(self.buff)
-
 
 
 class ClientSocketSerial(SocketSerial):

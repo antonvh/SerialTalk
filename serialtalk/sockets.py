@@ -1,3 +1,5 @@
+# Desktop, python3 implementation of sockets!
+# For micropython use usockets!
 
 import socket
 
