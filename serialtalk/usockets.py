@@ -17,13 +17,12 @@ class SocketSerial():
             data = self.buff[0:n]
             self.buff = self.buff[n:]
         else:
-            while data == b'':
-                try:
-                    extra = self.s.recv(n-len(self.buff))
-                except OSError:
-                    pass
-                data = extra + self.buff
-                self.buff = bytearray()
+            try:
+                extra = self.s.recv(n-len(self.buff))
+            except OSError:
+                pass
+            data = extra + self.buff
+            self.buff = bytearray()
         return data
 
     def any(self):
