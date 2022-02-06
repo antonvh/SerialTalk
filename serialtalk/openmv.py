@@ -5,17 +5,17 @@ class OpenMvSerial():
     DUPTERM_N = 2
     READS_PER_MS = 20
 
-    def __init__(self, port, baudrate=115200):
-        self.repl_port = port
+    def __init__(self, port=3, baudrate=115200, **kwargs):
+        self.port = port
         self.baudrate = baudrate
-        self.init()
+        self.disable_repl()
 
-    def init(self):
+    def disable_repl(self):
         dupterm(None, self.DUPTERM_N)
         self.uart = UART(self.port, baudrate=self.baudrate,timeout_char=1)
 
-    def init_repl(self):
-        dupterm(UART(self.repl_port, baudrate=self.baudrate), self.DUPTERM_N)
+    def enable_repl(self):
+        dupterm(UART(self.port, baudrate=self.baudrate), self.DUPTERM_N)
 
     def any(self):
         # H7 can return 0x00,0x00 or 0x00 instead of no bytes
@@ -26,3 +26,9 @@ class OpenMvSerial():
                 waiting = 0
                 self.flush()
         return waiting
+
+    def read(self, n=1):
+        return self.uart.read(n)
+
+    def write(self, data):
+        return self.uart.write(data)

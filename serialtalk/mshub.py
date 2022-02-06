@@ -1,19 +1,17 @@
 from utime import sleep_ms
 from hub import port
 
-# Implement UART any(), read() and write() methods with universal behavior
-
 class MSHubSerial():
     READS_PER_MS = 10
 
-    def __init__(self, port_str, baudrate=115200):
+    def __init__(self, port="F", baudrate=115200, **kwargs):
         # Baud rates of up to 230400 work. 115200 is the default for REPL.
         self.baudrate=baudrate # store baudrate for repl init
         self.buff = bytearray()
-        if type(port_str) == str:
-            self.uart = eval("port."+port_str)
+        if type(port) == str:
+            self.uart = eval("port."+port)
         else:
-            self.uart = port_str
+            self.uart = port
         self.uart.mode(1)
         sleep_ms(300)# wait for all duplex methods to appear
         self.uart.baud(baudrate) # set baud rate

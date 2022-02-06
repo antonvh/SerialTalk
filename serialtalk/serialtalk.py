@@ -21,7 +21,7 @@ class SerialTalk:
     command_formats={}
     version="Nightly"
 
-    def __init__(self, serial_device, timeout=1500, debug=False):
+    def __init__(self, serial_device, timeout=1500, debug=False, **kwargs):
         # Timeout is the time the lib waits in a receive_comand() after placing a call().
         self.timeout = timeout
         self.debug = debug
@@ -51,13 +51,13 @@ class SerialTalk:
 
     def enable_repl_locally(self):
         self.local_repl_enabled = True
-        if 'init_repl' in dir(self.serial):
-            self.serial.init_repl()
+        if 'enable_repl' in dir(self.serial):
+            self.serial.enable_repl()
 
     def disable_repl_locally(self):
         self.local_repl_enabled = False
-        if 'init' in dir(self.serial):
-            self.serial.init()
+        if 'disable_repl' in dir(self.serial):
+            self.serial.disable_repl()
 
     def add_command(self,command_function, format="", name=None):
         if not name:
