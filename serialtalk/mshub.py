@@ -4,7 +4,7 @@ from hub import port
 class MSHubSerial():
     READS_PER_MS = 10
 
-    def __init__(self, port="F", baudrate=115200, **kwargs):
+    def __init__(self, port="F", baudrate=115200, power=0, **kwargs):
         # Baud rates of up to 230400 work. 115200 is the default for REPL.
         self.baudrate=baudrate # store baudrate for repl init
         self.buff = bytearray()
@@ -15,6 +15,7 @@ class MSHubSerial():
         self.uart.mode(1)
         sleep_ms(300)# wait for all duplex methods to appear
         self.uart.baud(baudrate) # set baud rate
+        self.uart.pwm(power)
 
     def any(self):
         while True:
