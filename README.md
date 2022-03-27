@@ -18,4 +18,4 @@ ser.call('echo','read?')
 ## Roadmap, todo
 - test on esp8266 platform
 - test on bt comm channels
-- create pyserial/desktop channels
+- create pyserial/desktop channels 
