@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 project = 'UartRemote'
 copyright = '2022, Antons Mindstorms Hacks'
-author = antonvh'
+author = 'antonvh'
 
 
 # -- General configuration ---------------------------------------------------
