@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'UartRemote'
-copyright = '2022, Anton's Mindstorm'
+copyright = '2022, Antons Mindstorms Hacks'
 author = antonvh'
 
 
