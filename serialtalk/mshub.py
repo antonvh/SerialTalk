@@ -2,7 +2,7 @@ from utime import sleep_ms
 from hub import port
 
 class MSHubSerial():
-    READS_PER_MS = 10
+    READS_PER_MS = 10 # TODO: Check if it is really this fast? Maybe it is more like 0.1
 
     def __init__(self, port="F", baudrate=115200, power=0, **kwargs):
         # Baud rates of up to 230400 work. 115200 is the default for REPL.

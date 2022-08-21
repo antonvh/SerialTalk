@@ -144,13 +144,13 @@ class SerialTalk:
         _ = self.read_all()
         self.info("Flushed: %r" % _)
 
-    def force_read(self, size=1, timeout=50):
+    def force_read(self, size=1):
         # Keep reading for 'timeout' milliseconds
         # until we get data of 'size'. Return b'' otherwise.
         # TODO: Declare data a bytearray of the correct length to start with
-        data = b''
+        data = bytearray()
         r=self.serial.read(1)
-        for i in range(timeout*self.reads_per_ms):
+        for i in range(round(self.timeout*self.reads_per_ms)):
             if r==None:
                 # Make sure we can add r to data, even if its None
                 r=b''
@@ -182,9 +182,9 @@ class SerialTalk:
             return ("err",err)
 
         payload=self.force_read(1)
-        for i in range(payload[0]):
-                r = self.force_read(1)
-                payload+=r
+        # for i in range(payload[0]):
+        #         r = self.force_read(1)
+        payload+=self.force_read(payload[0])
         delim=self.force_read(1)
 
         if delim!=b'>':
