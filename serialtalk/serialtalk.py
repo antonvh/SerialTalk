@@ -148,7 +148,7 @@ class SerialTalk:
         # Keep reading for 'timeout' milliseconds
         # until we get data of 'size'. Return b'' otherwise.
         # TODO: Declare data a bytearray of the correct length to start with
-        data = bytearray()
+        data = b''
         r=self.serial.read(1)
         for i in range(round(self.timeout*self.reads_per_ms)):
             if r==None:
