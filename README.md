@@ -41,7 +41,7 @@ while(True):
     print(clock.fps())              # Note: OpenMV Cam runs about half as fast when connected
                                     # to the IDE. The FPS should increase once disconnected.
 ```
-3. On the SPIKE Prime [Install mpy-robot-tools]() with the installer script. Note that the installer may seem unresponsive. Just have some patience.
+3. On the SPIKE Prime [Install mpy-robot-tools](https://github.com/antonvh/mpy-robot-tools/blob/master/Installer/install_mpy_robot_tools.py) with the installer script. Note that the installer may seem unresponsive. Just have some patience.
 4. Run this script on SPIKE Prime:
 ``` python
 from projects.mpy_robot_tools.serialtalk import SerialTalk
