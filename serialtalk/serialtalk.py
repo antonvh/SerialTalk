@@ -35,6 +35,10 @@ class SerialTalk:
         self.add_command(self.disable_repl_locally, name='disable repl')
         self.add_command(self.echo, 'repr', name='echo')
         self.add_command(self.raw_echo, name='raw echo')
+        self.add_command(self.module,name='module')
+        self.add_command(self.get_num_commands,'repr',name='get_num_commands')
+        self.add_command(self.get_nth_command,'repr',name='get_nth_command')
+        self.add_command(self.get_version,'repr',name='get_version')
 
     def info(self, *args):
         if self.debug:
@@ -341,3 +345,45 @@ class SerialTalk:
             else:
                 return
 
+    def module(self,mod_bytes):
+        # load module in mod_bytes; this method is remotely 'call'-ed 
+        # the module name is passed as as type bytes
+        module = mod_bytes.decode('utf-8')
+        # import module
+        exec('import '+module)
+        # mod_objects points to the newly imported module
+        mod_object = eval(module)
+        # call the function add_commands within the imported module
+        mod_object.add_commands(self)
+
+    def add_module(self,module):
+        # this method loads a module on the remote system
+        l=len(module)
+        self.call('module','%ds'%l,module.encode('utf-8'))
+
+    def get_num_commands(self):
+        return len(self.commands)
+
+    def get_nth_command(self,n):
+        if n<len(self.commands):
+            return self.commands[n]
+        else:
+            raise SerialTalkError("get_nth_command: index exceeds number of commands")
+
+    def get_remote_commands(self):
+        cmds=[]
+        ack,n_cmds=self.call('get_num_commands')
+        try:
+            for i in range(n_cmds):
+                ack,cmd=self.call('get_nth_command','B',i)
+                cmds.append(cmd)
+        except:
+            if self.debug:
+                print('reload or no connection')
+        return cmds
+
+    def get_version(self):
+        version='2023010400' # version=<date>+<version>, with <date>=<YYYYMMDD> and <version>=00..99
+        if self.debug:
+            print(version)
+        return version
