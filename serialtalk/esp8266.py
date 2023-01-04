@@ -1,7 +1,7 @@
 from machine import UART, Pin
 from uos import dupterm
 
-class Esp8266Serial():
+class Esp8266UART():
     
     DUPTERM_N = 1
 

@@ -1,7 +1,7 @@
 from machine import UART
 from uos import dupterm
 
-class Esp32Serial():
+class Esp32UART():
     
     DUPTERM_N = 1
 

@@ -6,18 +6,18 @@ class SerialTalk(SerialTalk):
         _platform = sys.platform
 
         if _platform=='esp8266':
-            from .esp8266 import Esp8266Serial
-            super().__init__(Esp8266Serial(**kwargs), **kwargs)
+            from .esp8266 import Esp8266UART
+            super().__init__(Esp8266UART(**kwargs), **kwargs)
         elif _platform=='esp32':
-            from .esp32 import Esp32Serial
-            super().__init__(Esp32Serial(**kwargs), **kwargs)
+            from .esp32 import Esp32UART
+            super().__init__(Esp32UART(**kwargs), **kwargs)
         elif sys.implementation.name == 'pybricks-micropython': # Pybricks on EV3
             from .pybricks import PBSerial
             super().__init__(PBSerial(**kwargs), **kwargs)
         elif _platform=='LEGO Learning System Hub':
             from .mshub import MSHubSerial
             super().__init__(MSHubSerial(**kwargs), **kwargs)
-        elif _platform in ['OpenMV4P-H7', 'OpenMV3-M7']:
+        elif _platform in ['OpenMV4P-H7', 'OpenMV3-M7', 'OpenMV4-H7']:
             from .openmv import OpenMvSerial
             super().__init__(OpenMvSerial(**kwargs), **kwargs)
         elif _platform=='MaixPy':

@@ -59,11 +59,11 @@ class SerialTalk:
         if 'disable_repl' in dir(self.serial):
             self.serial.disable_repl()
 
-    def add_command(self,command_function, format="", name=None):
+    def add_command(self,command_function, return_format="", name=None):
         if not name:
             name=repr(command_function).split(" ")[1]
         self.commands[name]=command_function
-        self.command_formats[name]=format
+        self.command_formats[name]=return_format
 
     @staticmethod
     def encode(cmd,*argv):
