@@ -131,11 +131,14 @@ class SerialTalk:
                 pass
         return cmd,data
 
+    def any(self):
+        return self.serial.any()
+
     def read_all(self):
         # Read full receive buffer
-        any = self.serial.any()
-        if any:
-            data = self.serial.read(any)
+        num_bytes = self.any()
+        if num_bytes > 0:
+            data = self.serial.read(num_bytes)
             return data
         else:
             return b''
@@ -253,7 +256,7 @@ class SerialTalk:
         # Sleep for sleep ms after every listen.
         if sleep == -2:
             sleep = 1 # Originally this was 13 on H7 platforms.
-        if self.serial.any():
+        if self.any():
             self.reply_command(*self.receive_command())
         else:
             if self.debug:
