@@ -2,7 +2,7 @@ from .serialtalk import SerialTalk
 import sys
 
 class SerialTalk(SerialTalk):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         _platform = sys.platform
 
         if _platform == 'esp8266':
@@ -13,10 +13,10 @@ class SerialTalk(SerialTalk):
             super().__init__(Esp32UART(**kwargs), **kwargs)
         elif sys.implementation.name == 'pybricks-micropython': # Pybricks on EV3
             from .pybricks import PBSerial
-            super().__init__(PBSerial(**kwargs), **kwargs)
+            super().__init__(PBSerial(*args, **kwargs), **kwargs)
         elif _platform == 'LEGO Learning System Hub':
             from .mshub import MSHubSerial
-            super().__init__(MSHubSerial(**kwargs), **kwargs)
+            super().__init__(MSHubSerial(*args, **kwargs), **kwargs)
         elif 'OpenMV' in _platform:
             from .openmv import OpenMvSerial
             super().__init__(OpenMvSerial(**kwargs), **kwargs)
