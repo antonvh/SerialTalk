@@ -15,6 +15,10 @@ ser = SerialTalk(ClientSocketSerial("127.0.0.1",8080))
 ser.call('echo','read?')
 ```
 
+## SerialTalk verdion for pybricks primehub using LPF2
+
+We are devloping a special version of SerialTalk that can be used with the PyBricks PrimeHub firmware using the native Lego serial PF2 communication protocol. See  [SerialTalk_LPF2](https://github.com/antonvh/SerialTalk/tree/master/serialtalk_lpf2)
+
 ## Example with OpenMV H7
 
 1. Copy the complete serialtalk directory to the OpenMV flash (not the whole repo, just the library)
