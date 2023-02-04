@@ -15,4 +15,6 @@ On the pybricks, the same serialtalk_lpf2 library is running. Here we use the `P
 `serialtalk_lpf2.py` is the library that runs both on the LMS-ESP32 as well as the PyBricks PrimeHub. On the primehub you have to paste the code of this library (select raw mode) in the editor of PyBricks and append the example code below it. On the ESP32 yoy have to upload this library to the root of the flash filesystem tohether with the `LPF2_ESP32.py` library which is for emulating a native Lego LPF2 sensor.
 
 
+## Protocol
 
+![Alt text](./images//packet_format_lpf2.png?raw=true "Encoding of commands in a 16 byte LPF2 frame")
