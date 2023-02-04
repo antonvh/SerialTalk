@@ -2,6 +2,10 @@
 ## Goal
 The goal of the package is to facilitate communication between devices like Robots and peripheral embedded systems or monitors over a serial communication line. Sounds abstract? Think connecting an OpenMV camera to a LEGO SPIKE Prime Robot. Or linking up two pyboards. 
 
+#### SerialTalk version for pybricks primehub using LPF2 protocol
+
+We are devloping a special version of SerialTalk that can be used with the PyBricks PrimeHub firmware using the native Lego serial PF2 communication protocol. See  [SerialTalk_LPF2](https://github.com/antonvh/SerialTalk/tree/master/serialtalk_lpf2)
+
 ## Usage
 When you want default UART for the platform you're running on, just go:
 `from serialtalk.auto import SerialTalk`
@@ -15,9 +19,6 @@ ser = SerialTalk(ClientSocketSerial("127.0.0.1",8080))
 ser.call('echo','read?')
 ```
 
-## SerialTalk verdion for pybricks primehub using LPF2
-
-We are devloping a special version of SerialTalk that can be used with the PyBricks PrimeHub firmware using the native Lego serial PF2 communication protocol. See  [SerialTalk_LPF2](https://github.com/antonvh/SerialTalk/tree/master/serialtalk_lpf2)
 
 ## Example with OpenMV H7
 
