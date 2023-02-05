@@ -6,6 +6,7 @@ The library is losely based on the generic SerialTalk library. Because we do not
 ## LMS-ESP32
 The LMS-ESP32 emulates a Lego Detector. It creates a mode which allows to receive and send 16 unsigned bytes. Some appilications on the LMS-ESP32 need 5V power through the buck converter. The nuck convertor is powered by the M+ motor pin. This can be accomplished by extending the mode name accoriding to mode [flags](https://github.com/pybricks/technical-info/blob/master/uart-protocol.md#info_name). We use the `requires constant power on pin 2` flag which is bit 7 of the first byte. The so called motor infor field is 6 bytes long. The name of the mode becomes: `"POWER\x00\80\x00\x00\x00\x00\x00"`, where a zero byte is inserted between the name and the motot description. This feauture only works when the sensor is detected as a motor by the pybricks hub. Therefore, we use exactly the same modes as in a real small motor:
 ```
+name="POWER\x00\80\x00\x00\x00\x00\x00"
 mode_0 = [name,[16,LPF2.DATA8,1,0],[-100,100],[-100,100],[-100,100],'PCT',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],True]
 mode_1 = ['SPEED',[1,LPF2.DATA8,4,0],[-100,100],[-100,100],[-100,100],'PCT',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],True]
 mode_2 = ['POS',[1,LPF2.DATA32,4,0],[-360,360],[-100,100],[-360,360],'DEG',[LPF2.RELATIVE,LPF2.RELATIVE],True]
