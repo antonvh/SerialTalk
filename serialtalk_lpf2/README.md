@@ -3,9 +3,17 @@
 Initial code running on LMS-ESP32 and pybricks (primehub) for showing a proof of concept of bi-directional SerialTalk over the standard LPF2 serial detector protocol.
 
 The library is losely based on the generic SerialTalk library. Because we do not use a serial device having `read`, `write` and `available` methods, we had to adopt the way messages are being received and send ovder the LPF2 connection.
-
 ## LMS-ESP32
-The LMS-ESP32 emulates a Lego Detector. It creates a mode which allows to receive and send 16 unsigned bytes. 
+The LMS-ESP32 emulates a Lego Detector. It creates a mode which allows to receive and send 16 unsigned bytes. Some appilications on the LMS-ESP32 need 5V power through the buck converter. The nuck convertor is powered by the M+ motor pin. This can be accomplished by extending the mode name accoriding to mode [flags](https://github.com/pybricks/technical-info/blob/master/uart-protocol.md#info_name). We use the `requires constant power on pin 2` flag which is bit 7 of the first byte. The so called motor infor field is 6 bytes long. The name of the mode becomes: `"POWER\x00\80\x00\x00\x00\x00\x00"`, where a zero byte is inserted between the name and the motot description. This feauture only works when the sensor is detected as a motor by the pybricks hub. Therefore, we use exactly the same modes as in a real small motor:
+```
+mode_0 = [name,[16,LPF2.DATA8,1,0],[-100,100],[-100,100],[-100,100],'PCT',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],True]
+mode_1 = ['SPEED',[1,LPF2.DATA8,4,0],[-100,100],[-100,100],[-100,100],'PCT',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],True]
+mode_2 = ['POS',[1,LPF2.DATA32,4,0],[-360,360],[-100,100],[-360,360],'DEG',[LPF2.RELATIVE,LPF2.RELATIVE],True]
+mode_3 = ['APOS',[1,LPF2.DATA16,3,0],[-180,179],[-200,200],[-180,179],'DEG',[LPF2.RELATIVE,LPF2.RELATIVE],True]
+mode_4 = ['LOAD',[1,LPF2.DATA8,3,0],[0,127],[0,100],[0,127],'PCT',[LPF2.RELATIVE,LPF2.RELATIVE],False]
+```
+where mode_0 has a dataset of 16 DATA8 bytes in both direction (map_in and map_out is LPF2.ABSOLUTE).
+Now, we can measure approximately 7 or 8V on the M+ output.
 
 ## PyBricks
 On the pybricks, the same serialtalk_lpf2 library is running. Here we use the `PUPDevice` class with its `read` and `write` methods to receve and send 16 bytes chuncks from and to the LMS-ESP32.
