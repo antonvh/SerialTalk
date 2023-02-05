@@ -1,6 +1,6 @@
 from pybricks.hubs import InventorHub
 hub = InventorHub()
-s=SerialTalk(Port.F)
+s=SerialTalk(Port.F,name="T\x00\90\x00\x00\x00\x00\x00")
 
 while (1):
     ack,val=s.call('joy')

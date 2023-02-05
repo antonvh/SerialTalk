@@ -42,7 +42,7 @@ class SerialTalk:
     command_formats={}
     version="Nightly"
 
-    def __init__(self, port, mode=0,timeout=1500, debug=False, **kwargs):
+    def __init__(self, port,name="UART", mode=0,timeout=1500, debug=False, **kwargs):
         # Timeout is the time the lib waits in a receive_comand() after placing a call().
         self.timeout = timeout
         self.debug = debug
@@ -65,11 +65,20 @@ class SerialTalk:
                     wait(20)
            
         if platform==ESP32:
-            mode_16bytes = ['UART',[16,LPF2.DATA8,3,0],[0,1023],[0,100],[0,1023],'RAW',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],False]
-            modes = [mode_16bytes]
+            #mode_16bytes = [name,[16,LPF2.DATA8,3,0],[0,1023],[0,100],[0,1023],'RAW',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],False]
+            #modes = [mode_16bytes]
+            mode_0 = [name,[16,LPF2.DATA8,1,0],[-100,100],[-100,100],[-100,100],'PCT',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],True]
+            mode_1 = ['SPEED',[1,LPF2.DATA8,4,0],[-100,100],[-100,100],[-100,100],'PCT',[LPF2.ABSOLUTE,LPF2.ABSOLUTE],True]
+            mode_2 = ['POS',[1,LPF2.DATA32,4,0],[-360,360],[-100,100],[-360,360],'DEG',[LPF2.RELATIVE,LPF2.RELATIVE],True]
+            mode_3 = ['APOS',[1,LPF2.DATA16,3,0],[-180,179],[-200,200],[-180,179],'DEG',[LPF2.RELATIVE,LPF2.RELATIVE],True]
+            mode_4 = ['LOAD',[1,LPF2.DATA8,3,0],[0,127],[0,100],[0,127],'PCT',[LPF2.RELATIVE,LPF2.RELATIVE],False]
+
+
+            modes = [mode_0,mode_1,mode_2,mode_3,mode_4]
+            
             txpin=19
             rxpin=18
-            self.lpf2 = LPF2.ESP_LPF2(2, txpin,rxpin, modes, sensor_type=LPF2.SPIKE_Ultrasonic, baud=115200, timer = -1, freq = 5)    # ESP
+            self.lpf2 = LPF2.ESP_LPF2(2, txpin,rxpin, modes, sensor_type=75, baud=115200, timer = -1, freq = 5)    # ESP
             self.lpf2.initialize()
             self.lpf2.set_call_back(self.lpf2_callback)
         #self.add_command(self.get_num_commands,'repr',name='get_num_commands')
@@ -316,27 +325,3 @@ class SerialTalk:
         return version
 
 
-def add(a,b):
-    print(s.rcv_ctr)
-    return a+b
-
-def check(a):
-    print(a)
-
-
-from machine import I2C, Pin
-
-i2c = I2C(1,sda=Pin(5),scl=Pin(4))
-i2c.scan()
-
-def joy():
-    x,y,p=i2c.readfrom(82,3)
-    return x,y,p
-
-
-
-s=SerialTalk(1)
-
-s.add_command(add,'H')
-s.add_command(check)
-s.add_command(joy,'3B')
