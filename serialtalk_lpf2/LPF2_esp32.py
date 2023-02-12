@@ -117,17 +117,21 @@ class LPF2(object):
 #----- comm stuff
 
      def readchar(self):
-          c=self.uart.read(1)
-          cbyte=ord(c) if c else -1
-          #print("r=%02X"%cbyte)
+          if self.uart.any()>0:
+              c=self.uart.read(1)
+              cbyte=ord(c) if c else -1
+          else:
+              cbyte=-1
           return cbyte
 
      def hubCallback(self, timerInfo):
           if self.connected:
                chr =self.readchar()     # read in any heartbeat bytes
-               # print("cb",chr)
+               #print("cb",chr)
+               n_chr=0
                while chr>=0:
-                    if chr == 0:   # port has nto been setup yet
+                    
+                    if chr == 0:   # port has not been setup yet
                          pass
                     elif chr == BYTE_NACK:     # regular heartbeat pulse
                          pass   
@@ -178,12 +182,17 @@ class LPF2(object):
                     #      if cksm == 0xff ^ 0x4C ^ chk:
                     #           pass
                     else:
+                         self.connected = False
                          pass
                          print("Unexpected callback from hub",chr)
                     chr = self.readchar()
-                    
                size = self.writeIt(self.payload)    # send out the latest payload
+               #print("cb",size) # debug 
                if not size: self.connected = False
+               #if n_chr>19:
+               #    self.connected = False
+               #    print("n_chr>19")
+               
 
      def writeIt(self,array):
           #print('write:')
@@ -296,7 +305,7 @@ class LPF2(object):
 
      def initialize(self):
           self.connected = False
-          self.sendTimer = Timer(-1)  # default is 200 ms
+          self.sendTimer = Timer(self.txTimer)  # default is 200 ms
           self.period=int(1000/self.freq)
           self.init()
           self.writeIt(self.setType(self.sensor_type))  # set type to 35 (WeDo Ultrasonic) 61 (Spike color), 62 (Spike ultrasonic)
