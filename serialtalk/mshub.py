@@ -25,12 +25,15 @@ class MSHubSerial():
         return len(self.buff)
 
     def read(self,n=1):
-        if len(self.buff) > n:
-            return self.buff.pop(n)
+        if not self.buff:
+            data = self.uart.read(n)
+        elif len(self.buff) > n:
+            data = self.buff[:n]
+            self.buff = self.buff[n:]
         else:
             data = self.uart.read(n-len(self.buff)) + self.buff
             self.buff = bytearray()
-            return data
+        return data
 
     def write(self,data):
         window=32
