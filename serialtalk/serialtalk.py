@@ -39,6 +39,7 @@ class SerialTalk:
         self.add_command(self.get_num_commands,'repr',name='get_num_commands')
         self.add_command(self.get_nth_command,'repr',name='get_nth_command')
         self.add_command(self.get_version,'repr',name='get_version')
+        self.flush() # Start clean
 
     def info(self, *args):
         if self.debug:
