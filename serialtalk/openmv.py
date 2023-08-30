@@ -18,17 +18,19 @@ class OpenMvSerial():
         dupterm(UART(self.port, baudrate=self.baudrate), self.DUPTERM_N)
 
     def any(self):
-        # H7 can return 0x00,0x00 or 0x00 instead of no bytes
-        waiting = self.uart.any()
-        if 0 > waiting > 3:
-            self.unprocessed_data=self.uart.read(1)
-            if self.unprocessed_data == b'\x00':
-                waiting = 0
-                self.flush()
-        return waiting
+        # In the past, H7 could return 0x00,0x00 or 0x00 instead of no bytes
+        # waiting = 
+        # if 0 > waiting > 3:
+        #     self.unprocessed_data=self.uart.read(1)
+        #     if self.unprocessed_data == b'\x00':
+        #         waiting = 0
+        #         self.flush()
+        # It seems to be better behaved now, but we'll keep this code around
+        return self.uart.any()
 
     def read(self, n=1):
-        return self.uart.read(n)
+        b = self.uart.read(n)
+        return b'' if b == None else b
 
     def write(self, data):
         return self.uart.write(data)
