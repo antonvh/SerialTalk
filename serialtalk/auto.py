@@ -2,6 +2,10 @@ from .serialtalk import SerialTalk
 import sys
 
 class SerialTalk(SerialTalk):
+    """
+    SerialTalk class that automatically detects the platform and uses the correct SerialTalk implementation
+    also sets the correct default values for the platform.
+    """
     def __init__(self, *args, **kwargs):
         _platform = sys.platform
 

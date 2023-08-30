@@ -1,9 +1,13 @@
-# Desktop, python3 implementation of sockets!
-# For micropython use usockets!
-
 import socket
 
 class SocketSerial():
+    """
+    Serial interface for python3 sockets. For Micropython use usockets module.
+    Harmonized behavior for SerialTalk.
+
+    :param socket: Your server socket object
+    :type socket: socket.socket
+    """
     def __init__(self, socket):
         self.s = socket
         self.buff = bytearray()
@@ -38,6 +42,16 @@ class SocketSerial():
         return len(self.buff)
 
 class ClientSocketSerial(SocketSerial):
+    """
+    Serial interface for python3 client sockets. Connects to a server host on a port.
+    
+    For Micropython use usockets module. Harmonized behavior for SerialTalk.
+    
+    :param host: Hostname or IP address of the server
+    :type host: str
+    :param port: Port number of the server
+    :type port: int
+    """
     def __init__(self, host, port):
         super().__init__(socket.socket())
         self.addr = (host, port)
