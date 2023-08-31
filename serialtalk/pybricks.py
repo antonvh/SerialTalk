@@ -8,16 +8,16 @@ class PBSerial:
         self.baudrate = baudrate  # store baudrate for repl init
         if port is None:
             port = Port.S1
-        self.uart = UARTDevice(port, baudrate, timeout=1)
+        self.uart = UARTDevice(port, baudrate)
 
     def any(self):
         return self.uart.waiting()
 
     def read(self, n=1):
-        try:
-            return self.uart.read(n)
-        except OSError:
+        if self.uart.waiting() < n:
             return b''
+        else:
+            return self.uart.read(n)
 
     def write(self, data):
         self.uart.write(data)
