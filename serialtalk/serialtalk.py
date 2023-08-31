@@ -268,7 +268,7 @@ class SerialTalk:
             result = self.decode(l + pl)
             return result
 
-    def send_command(self, command: str, *argv):
+    def send_command(self, command: str, *argv, flush=True):
         """
         Send a command to a remote host that is processing serialtalk commands.
         Does not wait for an answer.
@@ -281,8 +281,9 @@ class SerialTalk:
             self.disable_repl_locally()
         s = self.encode(command, *argv)
         msg = b"<" + s + b">"
+        if flush:
+            self.flush()  # Clear the uart buffer so it's ready to pick up an answer
         self.info("Sending:", msg)
-        self.flush()  # Clear the uart buffer so it's ready to pick up an answer
         self.serial.write(msg)
 
     def call(self, command: str, *args, wait=False):
@@ -328,13 +329,13 @@ class SerialTalk:
 
     def ack_ok(self, command="", value="ok", fmt="repr"):
         if isinstance(value, tuple):
-            self.send_command(command + "ack", fmt, *value)
+            self.send_command(command + "ack", fmt, *value, flush=False)
         else:
-            self.send_command(command + "ack", fmt, value)
+            self.send_command(command + "ack", fmt, value, flush=False)
 
     def ack_err(self, command="", value="not ok", fmt="repr"):
         self.info("Ack Error:", value)
-        self.send_command(command + "err", fmt, value)
+        self.send_command(command + "err", fmt, value, flush=False)
 
     def process_uart(self, *args, **kwargs):
         # Backward compatibility
@@ -432,7 +433,7 @@ class SerialTalk:
                 decoded = result.decode("utf-8").split("\x04")
             try:
                 # The last 5 bytes are b'\r\n\x04\x04>' Between the \x04's there can be an exception.
-                value, error, _ = decoded 
+                value, error, _ = decoded
             except:
                 raise SerialTalkError("Unexpected answer from repl: {}".format(result))
             if error:
