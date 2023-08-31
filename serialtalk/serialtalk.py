@@ -106,12 +106,13 @@ class SerialTalk:
 
     def add_command(self, command_function, return_format="", name=None):
         """
-        Add a function or method to the list of commands that can be called remotely.
+        Add a function or method to the list of commands that can be called from a
+        remote instance of SerialTalk.
 
         :param command_function: The function to add.
         :type command_function: function or method
         :param return_format: The format of the return value, default "" for no return value.
-        :type return_format: struct.pack format string or "repr" for Python objects.
+        :type return_format: struct.pack format string or "repr" for returning Python objects.
         :param name: The name of the command, default None for the function name.
         :type name: str
         """
