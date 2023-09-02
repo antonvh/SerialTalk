@@ -1,5 +1,10 @@
 # Symmetrical communication library for Micropython devices
-# (c) 2021 Ste7an, Anton Vanhoucke
+
+__author__ = "Anton Vanhoucke, Ste7an"
+__copyright__ = "Copyright 2023, AntonsMindstorms.com"
+__license__ = "GPL"
+__version__ = "2023083100"  # version=<date>+<version>, with <date>=<YYYYMMDD> and <version>=00..99
+__status__ = "Production"
 
 import struct
 
@@ -39,7 +44,7 @@ class SerialTalk:
         self.serial = serial_device
         self.commands = {}
         self.command_formats = {}
-        self.version = "2023083100"  # version=<date>+<version>, with <date>=<YYYYMMDD> and <version>=00..99
+        self.version = __version__
 
         # Add default commands to listen for.
         self.add_command(self.enable_repl_locally, name="enable repl")
