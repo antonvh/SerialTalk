@@ -1,4 +1,10 @@
 from machine import UART
+try:
+    # Compatibility with LMS-ESP32 v2
+    from lms_esp32 import RXPIN, TXPIN
+except ImportError:
+    RXPIN = 18
+    TXPIN = 19
 
 class Esp32UART():
 
