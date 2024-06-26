@@ -24,7 +24,7 @@ ser.call('echo','read?')
 
 ## Example with OpenMV H7
 
-1. Copy the complete serialtalk directory to the OpenMV flash (not the whole repo, just the library)
+1. Copy the complete `serialtalk` directory to the OpenMV flash (not the whole SerialTalk, just the `serialtalk` subfolder)
 2. Create a main.py with this code. It is an adaptation of the OpenMV Hello world
 ``` python
 import sensor, image, time
