@@ -1,14 +1,18 @@
 from machine import UART
 try:
     # Compatibility with LMS-ESP32 v2
-    from lms_esp32 import RXPIN, TXPIN
+    from lms_esp32 import RX_PIN, TX_PIN
 except ImportError:
-    RXPIN = 18
-    TXPIN = 19
+    RX_PIN = 18
+    TX_PIN = 19
 
 class Esp32UART():
 
-    def __init__(self, port=1, baudrate=115200, rx_pin=18,tx_pin=19, **kwargs):
+    def __init__(self, port=1, baudrate=115200, rx_pin=None,tx_pin=None, **kwargs):
+        if rx_pin==None:
+            rx_pin=RX_PIN
+        if tx_pin==None:
+            tx_pin=TX_PIN
         self.uart = UART(port, baudrate=baudrate,timeout=1, rx=rx_pin,tx=tx_pin)
 
     def disable_repl(self):
