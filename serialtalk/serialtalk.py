@@ -44,6 +44,7 @@ class SerialTalk:
         self.serial = serial_device
         self.commands = {}
         self.command_formats = {}
+        self.command_array = [] # Seems like double bookkeeping, but simplest for now.
         self.version = __version__
 
         # Add default commands to listen for.
@@ -89,10 +90,8 @@ class SerialTalk:
         return len(self.commands)
 
     def get_nth_command(self, n):
-        if n < len(self.commands):
-            return self.commands[n]
-        else:
-            raise SerialTalkError("get_nth_command: index exceeds number of commands")
+        if n < len(self.command_formats):
+            return self.command_formats[n]
 
     def get_remote_commands(self):
         cmds = []
@@ -125,6 +124,8 @@ class SerialTalk:
             name = repr(command_function).split(" ")[1]
         self.commands[name] = command_function
         self.command_formats[name] = return_format
+        if name not in self.command_array:
+            self.command_array.append(name)
 
     @staticmethod
     def encode(cmd, *argv):
