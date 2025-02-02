@@ -87,11 +87,11 @@ class SerialTalk:
             self.serial.disable_repl()
 
     def get_num_commands(self):
-        return len(self.commands)
+        return len(self.command_array)
 
     def get_nth_command(self, n):
-        if n < len(self.command_formats):
-            return self.command_formats[n]
+        if n < len(self.command_array):
+            return self.command_array[n]
 
     def get_remote_commands(self):
         cmds = []
