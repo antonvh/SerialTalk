@@ -2,7 +2,18 @@
 SerialTalk documentation
 ========================
 
-This is a library for robust, near real-time communication between two UART devices. We developed it on python 3.9 with LEGO EV3, SPIKE Prime and other MicroPython (ESP/STM32) modules. The library is available on github: `UartRemote on GitHub <https://github.com/antonvh/UartRemote>`_.
+
+
+This is a library for robust, near real-time communication between two UART devices. 
+Serial Remote Procedure call works over UART, sockets, and BT RFComm. 
+In fact, it works over any serial protocol. The protocol is the same as
+UartRemote, but it is generalized to work over more channels than just UART.
+The protocol is compatible.
+
+We developed it on python 3.9 with LEGO EV3, SPIKE Prime and other MicroPython 
+(ESP/STM32) modules. The library is available on github: `UartRemote on GitHub <https://github.com/antonvh/UartRemote>`_.
+
+
 The library has the following properties:
 
 * It is fast enough to read sensor data at 30-50Hz.
