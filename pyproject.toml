@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "serialtalk"
+version = "1.0.0"
+authors = [
+    {name = "Anton Vanhoucke", email = "anton@antonsmindstorms.com"},
+    {name = "Ste7an"}
+]
+description = "Platform-independent symmetric communication library for MicroPython and Python devices"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["micropython", "serial", "uart", "communication", "embedded", "robotics", "lego", "spike", "openmv"]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: MicroPython",
+    "Topic :: Software Development :: Embedded Systems",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Hardware",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "sphinx>=5.0",
+    "sphinx-rtd-theme>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/antonvh/SerialTalk"
+Documentation = "https://serialtalk.readthedocs.io"
+Repository = "https://github.com/antonvh/SerialTalk"
+"Bug Tracker" = "https://github.com/antonvh/SerialTalk/issues"
+
+[tool.setuptools]
+packages = ["serialtalk"]
+
+[tool.setuptools.package-data]
+serialtalk = ["*.py"]
+
+[tool.black]
+line-length = 100
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

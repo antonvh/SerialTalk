@@ -1,0 +1,18 @@
+{
+  "urls": [
+    ["serialtalk/__init__.py", "serialtalk/__init__.py"],
+    ["serialtalk/auto.py", "serialtalk/auto.py"],
+    ["serialtalk/esp32.py", "serialtalk/esp32.py"],
+    ["serialtalk/esp8266.py", "serialtalk/esp8266.py"],
+    ["serialtalk/k210.py", "serialtalk/k210.py"],
+    ["serialtalk/mshub.py", "serialtalk/mshub.py"],
+    ["serialtalk/openmv.py", "serialtalk/openmv.py"],
+    ["serialtalk/pybricks.py", "serialtalk/pybricks.py"],
+    ["serialtalk/serialtalk.py", "serialtalk/serialtalk.py"],
+    ["serialtalk/sockets.py", "serialtalk/sockets.py"],
+    ["serialtalk/usockets.py", "serialtalk/usockets.py"],
+    ["uartremote.py", "uartremote.py"]
+  ],
+  "deps": [],
+  "version": "1.0.0"
+}

@@ -40,7 +40,41 @@ to a LEGO SPIKE Prime Robot. Or linking up two pyboards.
 Installation
 ------------
 
-The easiest way to install it is with the mpy-robot-tools installer.
+For Python (PyPI)
+~~~~~~~~~~~~~~~~~
+
+Install from PyPI using pip:
+
+.. code:: bash
+
+   pip install serialtalk
+
+For MicroPython
+~~~~~~~~~~~~~~~
+
+Option 1: Using viperIDE.org (Recommended)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Go to `viperIDE.org <https://viperide.org>`_
+2. Connect to your MicroPython device
+3. Navigate to **Tools** > **Package Manager**
+4. Click **Install package via link**
+5. Enter: ``github:antonvh/SerialTalk``
+
+Option 2: Using mpremote
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code:: bash
+
+   mpremote mip install github:antonvh/SerialTalk
+
+Option 3: Using mip from device REPL
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code:: python
+
+   import mip
+   mip.install("github:antonvh/SerialTalk")
 
 Usage
 -----

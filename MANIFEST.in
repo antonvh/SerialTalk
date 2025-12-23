@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include CONTRIBUTING.md
+include DEVELOPER.md
+include package.json
+recursive-include serialtalk *.py
+include serialtalk/py.typed
+recursive-include docs *.rst *.py
+recursive-include images *.png *.jpg *.svg
+exclude examples
+recursive-exclude examples *
+global-exclude __pycache__
+global-exclude *.py[co]

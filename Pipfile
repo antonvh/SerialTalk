@@ -4,8 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+serialtalk = {editable = true, path = "."}
 
 [dev-packages]
+build = "*"
+twine = "*"
+pytest = "*"
+black = "*"
+flake8 = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
 
 [requires]
 python_version = "3.9"
