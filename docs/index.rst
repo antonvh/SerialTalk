@@ -55,7 +55,7 @@ For MicroPython
 Option 1: Using viperIDE.org (Recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Go to `viperIDE.org <https://viperide.org>`_
+1. Go to `viperIDE.org <https://viper-ide.org/>`_
 2. Connect to your MicroPython device
 3. Navigate to **Tools** > **Package Manager**
 4. Click **Install package via link**
